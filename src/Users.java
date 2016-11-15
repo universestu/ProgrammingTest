@@ -7,6 +7,8 @@ public class Users {
     // Create new user with type, name and password
     // user created with this method should be automatically added to userList;
     public IUser create(int type, String name, String password) throws RuntimeException {
+
+        //check
         for(int i=0;i<userList.size();i++){
             if(userList.get(i).getName()== name) {
                 throw new RuntimeException("this name was used");
@@ -30,19 +32,22 @@ public class Users {
 
     // Add new user to repository
     public void add(IUser user) throws RuntimeException {
-        if(userList.contains(user)) {
+        if(!this.exists(user)) {
               throw new RuntimeException("This user was used");
         }
-        if(user.getType()== 0){
+        if(user.getType()== 0){                     //No Type
             throw new RuntimeException("invalid type");
         }
-                userList.add(user); //only add a user ?
+        if(user.getName() == null) {         //check password ??
+            throw new RuntimeException("This User is invalid");
+        }
+        userList.add(user); //only add a user ?
     }
 
     // Delete user from repository
     // Throw  RuntimeException if the user is not in the list
     public void remove(IUser user) throws RuntimeException {
-        if(!userList.contains(user)){                       //user is not in the list
+        if(!this.exists(user)){                       //user is not in the list
             throw new RuntimeException("user is not in the list");
         }
         userList.remove(user);
