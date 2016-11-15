@@ -2,11 +2,16 @@ import java.util.ArrayList;
 
 public class Users {
     // User repository
-    private ArrayList<IUser> userList;
+    private ArrayList<IUser> userList = new ArrayList<IUser>();
 
     // Create new user with type, name and password
     // user created with this method should be automatically added to userList;
-    public IUser create(int type, String name, String password) {
+    public IUser create(int type, String name, String password) throws RuntimeException {
+        for(int i=0;i<userList.size();i++){
+            if(userList.get(i).getName()== name) {
+                throw new RuntimeException("this name was used");
+            }
+        }
         if(type == 1){
             Student student = new Student();
             student.setName(name);
@@ -28,7 +33,10 @@ public class Users {
         if(userList.contains(user)) {
               throw new RuntimeException("This user was used");
         }
-        userList.add(user); //only add a user ?
+        if(user.getType()== 0){
+            throw new RuntimeException("invalid type");
+        }
+                userList.add(user); //only add a user ?
     }
 
     // Delete user from repository
