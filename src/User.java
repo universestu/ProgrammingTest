@@ -1,7 +1,7 @@
 public class User implements IUser {
-    private String name ="Admin";
-    private String password = "admin";
-    public int type;
+    private String name;
+    private String password;
+    protected int type = 0;
 
     @Override
     public String getName() {
@@ -10,30 +10,32 @@ public class User implements IUser {
     }
 
     @Override
-    public String setName(String name) throws RuntimeException
-    {if(name.length() == 0)
-       throw new RuntimeException("Name is null,Please check your name again");
-    else{
-        this.name = name;
-        return name;}
+    public String setName(String name) throws RuntimeException {
+        String regex = "^[A-Za-z][A-Za-z0-9]{7,}$";
+        if (!name.matches(regex)) {
+            throw new RuntimeException("Name is incorrect,Please check your name again");
+        } else {
+            this.name = name;
+            return name;
+        }
     }
 
     @Override
-    public String setPassword(String password) throws RuntimeException{
+    public String setPassword(String password) throws RuntimeException {
 
-    if(password.length() == 0){
-        throw new RuntimeException("password is null,Please check your password again");}
-    if(password.length() < 4) {
-            throw new RuntimeException("password is more 4 character,Please add more character again");
+        if (!isPasswordCorrect(password)) {
+
+            throw new RuntimeException("password is incorrect,Please check your password again");
+        } else {
+            this.password = password;
+            return password;
         }
-     else
-    {this.password = password;
-        return password;}
     }
 
     @Override
     public boolean isPasswordCorrect(String password) {
-        if(this.password == password)
+        String regex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])([a-zA-Z0-9]{12,})$";
+        if (password.matches(regex))
             return true;
         else
             return false;
