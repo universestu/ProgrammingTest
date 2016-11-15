@@ -8,26 +8,19 @@ public class Users {
     // user created with this method should be automatically added to userList;
     public IUser create(int type, String name, String password) throws RuntimeException {
 
-        //check
-        for(int i=0;i<userList.size();i++){
-            if(userList.get(i).getName()== name) {
+        for(IUser user: userList) {
+            if(user.getName().equals(name)) {
                 throw new RuntimeException("this name was used");
             }
         }
+        IUser user;
         if(type == 1){
-            Student student = new Student();
-            student.setName(name);
-            student.setPassword(password);
-            student.setType();
-            userList.add(student);
+            user = new Student(name, password);
         }else{
-            Teacher teacher = new Teacher();
-            teacher.setName(name);
-            teacher.setPassword(password);
-            teacher.setType();
-            userList.add(teacher);
+            user = new Teacher(name,password);
         }
-        return userList.get(0);   //return first index of ArrayList ? = 0 ??
+        userList.add(user);
+        return user;   //return first index of ArrayList ? = 0 ??
     }
 
     // Add new user to repository
